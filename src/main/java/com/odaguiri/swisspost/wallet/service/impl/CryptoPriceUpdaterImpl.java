@@ -8,6 +8,7 @@ import com.odaguiri.swisspost.wallet.service.CryptoService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -50,6 +51,7 @@ public class CryptoPriceUpdaterImpl implements CryptoPriceUpdater {
     }
 
 
+    @Scheduled(fixedRateString = "${app.crypto-updater.interval-ms}")
     @Override
     public void updateAllCryptoPrices() {
         List<Crypto> slugs = cryptoService.findAll();
