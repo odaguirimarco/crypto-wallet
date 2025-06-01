@@ -10,7 +10,12 @@ import com.odaguiri.swisspost.wallet.service.exception.CryptoNotFoundException;
 import com.odaguiri.swisspost.wallet.service.mapper.CryptoMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CryptoServiceImpl implements CryptoService {
@@ -66,5 +71,18 @@ public class CryptoServiceImpl implements CryptoService {
     public Crypto findBySymbol(String symbol) {
         return cryptoRepository.findBySymbol(symbol)
                 .orElseThrow(() -> new CryptoNotFoundException(symbol));
+    }
+
+    @Override
+    public List<Crypto> findAll() {
+        return StreamSupport.stream(cryptoRepository.findAll().spliterator(), false)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public void updatePrice(String id, BigDecimal newPrice) {
+        Crypto crypto = findById(id);
+        crypto.setCurrentPrice(newPrice);
+        cryptoRepository.save(crypto);
     }
 }

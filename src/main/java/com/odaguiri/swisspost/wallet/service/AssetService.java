@@ -6,4 +6,5 @@ import java.math.BigDecimal;
 
 public interface AssetService {
     Asset prepareAsset(String assetSlug, BigDecimal amount, BigDecimal price);
+    void updateAssetValues(String symbol, BigDecimal newPrice);
 }

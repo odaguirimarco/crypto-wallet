@@ -2,6 +2,7 @@ package com.odaguiri.swisspost.wallet.service.impl;
 
 import com.odaguiri.swisspost.wallet.domain.model.Asset;
 import com.odaguiri.swisspost.wallet.domain.model.Crypto;
+import com.odaguiri.swisspost.wallet.domain.repository.AssetRepository;
 import com.odaguiri.swisspost.wallet.external.service.CoinCapService;
 import com.odaguiri.swisspost.wallet.service.CryptoService;
 import com.odaguiri.swisspost.wallet.service.exception.InvalidPriceException;
@@ -21,6 +22,9 @@ import static org.mockito.Mockito.when;
 class AssertServiceImplTest {
 
     @Mock
+    private AssetRepository assetRepository;
+
+    @Mock
     private CryptoService cryptoService;
 
     @Mock
@@ -33,7 +37,7 @@ class AssertServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        assetService = new AssetServiceImpl(cryptoService, coinCapService);
+        assetService = new AssetServiceImpl(assetRepository, cryptoService, coinCapService);
         crypto = new Crypto("bitcoin", symbol, "bitcoin", BigDecimal.ZERO);
     }
 
